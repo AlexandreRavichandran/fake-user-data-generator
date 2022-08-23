@@ -3,6 +3,7 @@ package com.fakeuserdatagenerator.fakeuserdatagenerator.domain;
 import com.fakeuserdatagenerator.fakeuserdatagenerator.constant.AstrologicalSign;
 import com.fakeuserdatagenerator.fakeuserdatagenerator.constant.BloodType;
 import com.fakeuserdatagenerator.fakeuserdatagenerator.constant.Gender;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 
 import java.util.Date;
@@ -10,27 +11,36 @@ import java.util.Date;
 @Data
 public class UserData {
 
-    private String lastName;
-    private String firstName;
-    private Gender gender;
-    private Integer age;
-    private Date birthDate;
-    private String height;
-    private String weight;
-    private BloodType bloodType;
-    private String pictureUrl;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private UserGeneralData generalData;
 
-    private String address;
-    private String country;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private UserPhysicalData physicalData;
 
-    private String email;
-    private String phoneNumber; //Faire une methode pour determiner la forme (., - ou tout attaché)
-    private String countryCode;
-
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private AstrologicalSign astrologicalSign;
 
-    private CreditCardData creditCardData;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private CreditCardData creditCard;
 
     private String job;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private UserPreferenceData preference;
+
+    public String getFormattedPhoneNumber(Integer type) {
+        String formattedPhoneNumber = "";
+        switch (type) {
+            case 1:
+                String[] results = this.getGeneralData().getPhoneNumber().split("(?<=\\G.{" + 2 + "})");
+                formattedPhoneNumber = String.join("-", results);
+                break;
+            case 2:
+                formattedPhoneNumber = this.getGeneralData().getPhoneNumber();
+                break;
+            default:
+        }
+
+        return formattedPhoneNumber;
+    }
 }

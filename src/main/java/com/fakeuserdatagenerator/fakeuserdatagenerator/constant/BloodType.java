@@ -1,5 +1,7 @@
 package com.fakeuserdatagenerator.fakeuserdatagenerator.constant;
 
+import java.util.Random;
+
 public enum BloodType {
     A_POSITIVE("A+"),
     A_NEGATIVE("A-"),
@@ -10,7 +12,14 @@ public enum BloodType {
     O_POSITIVE("O+"),
     O_NEGATIVE("O-");
 
+    private final String symbol;
+
     BloodType(String symbol) {
+        this.symbol = symbol;
+    }
+
+    public static String getRandomValue(){
+        return BloodType.values()[new Random().nextInt(BloodType.values().length)].symbol;
     }
 
 }
