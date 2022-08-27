@@ -24,11 +24,9 @@ public enum Country {
     UK("Ukrainian", "uk"),
     VI("Vietnamese", "vi");
 
-    private final String label;
     private final String code;
 
     Country(String label, String code) {
-        this.label = label;
         this.code = code;
     }
 
@@ -41,7 +39,7 @@ public enum Country {
         return null;
     }
 
-    public static String getRandomValue(){
+    public static String getRandomValue() {
         return Country.values()[new Random().nextInt(Country.values().length)].code;
     }
 

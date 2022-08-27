@@ -1,6 +1,5 @@
 package com.fakeuserdatagenerator.fakeuserdatagenerator.domain;
 
-import com.fakeuserdatagenerator.fakeuserdatagenerator.constant.Gender;
 import lombok.Data;
 
 import java.util.Date;

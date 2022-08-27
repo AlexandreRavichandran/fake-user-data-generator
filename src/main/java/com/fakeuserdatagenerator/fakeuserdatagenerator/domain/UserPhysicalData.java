@@ -1,6 +1,5 @@
 package com.fakeuserdatagenerator.fakeuserdatagenerator.domain;
 
-import com.fakeuserdatagenerator.fakeuserdatagenerator.constant.BloodType;
 import lombok.Data;
 
 @Data

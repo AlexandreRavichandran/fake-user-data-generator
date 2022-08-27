@@ -18,7 +18,7 @@ public enum BloodType {
         this.symbol = symbol;
     }
 
-    public static String getRandomValue(){
+    public static String getRandomValue() {
         return BloodType.values()[new Random().nextInt(BloodType.values().length)].symbol;
     }
 

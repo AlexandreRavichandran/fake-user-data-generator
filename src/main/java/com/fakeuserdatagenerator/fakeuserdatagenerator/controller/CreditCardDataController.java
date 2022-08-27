@@ -1,6 +1,5 @@
 package com.fakeuserdatagenerator.fakeuserdatagenerator.controller;
 
-import com.fakeuserdatagenerator.fakeuserdatagenerator.constant.PaymentType;
 import com.fakeuserdatagenerator.fakeuserdatagenerator.domain.CreditCardData;
 import com.fakeuserdatagenerator.fakeuserdatagenerator.utils.CreditCardGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +10,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Locale;
 
+import static java.util.Objects.nonNull;
+
 @RestController
 @RequestMapping("/api/generate/creditcards")
 public class CreditCardDataController {
@@ -19,7 +20,7 @@ public class CreditCardDataController {
     CreditCardGenerator creditCardGenerator;
 
     @GetMapping()
-    public ResponseEntity<CreditCardData> generateRandom(@Nullable @RequestParam("type") String type){
-        return new ResponseEntity<>(this.creditCardGenerator.generate(type.toUpperCase()), HttpStatus.OK);
+    public ResponseEntity<CreditCardData> generateRandom(@Nullable @RequestParam("type") String type) {
+        return new ResponseEntity<>(this.creditCardGenerator.generate(nonNull(type) ? type.toUpperCase(Locale.ROOT) : null), HttpStatus.OK);
     }
 }

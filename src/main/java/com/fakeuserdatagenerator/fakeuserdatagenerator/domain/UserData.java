@@ -28,6 +28,9 @@ public class UserData {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private UserPreferenceData preference;
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private UserSocialNetworkData socialNetwork;
+
     public String getFormattedPhoneNumber(Integer type) {
         String formattedPhoneNumber = "";
         switch (type) {

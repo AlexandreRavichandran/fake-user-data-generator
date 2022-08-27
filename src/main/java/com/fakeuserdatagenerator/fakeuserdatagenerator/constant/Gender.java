@@ -12,7 +12,7 @@ public enum Gender {
         this.label = label;
     }
 
-    public static String getRandomValue(){
+    public static String getRandomValue() {
         return Gender.values()[new Random().nextInt(Gender.values().length)].label;
     }
 }

@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.HashMap;
 
 @RestController
 @RequestMapping("/api/generate/users")
@@ -32,6 +31,8 @@ public class UserDataController {
         userData.setGeneralData(new UserGeneralData());
         userData.setPreference(new UserPreferenceData());
         userData.setCreditCard(new CreditCardData());
+        userData.setSocialNetwork(new UserSocialNetworkData());
+
         return new ResponseEntity<>(this.fakeUserGenerator.generateFakeUserByNecessaryDatas(userData, "fr"), HttpStatus.OK);
     }
 
