@@ -2,6 +2,7 @@ package com.fakeuserdatagenerator.fakeuserdatagenerator.utils;
 
 import com.fakeuserdatagenerator.fakeuserdatagenerator.constant.PaymentType;
 import com.fakeuserdatagenerator.fakeuserdatagenerator.domain.CreditCardData;
+import com.fakeuserdatagenerator.fakeuserdatagenerator.utils.general.RandomDateGenerator;
 import com.fakeuserdatagenerator.fakeuserdatagenerator.utils.luhn.LuhnAlgorithmGenerator;
 import com.github.javafaker.Faker;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,8 +10,7 @@ import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
 
 import java.text.SimpleDateFormat;
-import java.util.concurrent.TimeUnit;
-
+import java.util.Random;
 import static java.util.Objects.isNull;
 
 @Component
@@ -18,6 +18,9 @@ public class CreditCardGenerator {
 
     @Autowired
     private Faker faker;
+
+    @Autowired
+    private RandomDateGenerator randomDateGenerator;
 
     @Autowired
     private LuhnAlgorithmGenerator luhnAlgorithmGenerator;
@@ -42,11 +45,12 @@ public class CreditCardGenerator {
 
         SimpleDateFormat dateFormatter = new SimpleDateFormat("MM/yyyy");
 
-        return dateFormatter.format(this.faker.date().future(365, TimeUnit.DAYS));
+        return dateFormatter.format(this.randomDateGenerator.getRandomDateGenerator());
     }
 
     private String generateCVV() {
-        return String.valueOf(this.faker.number().numberBetween(100, 999));
+        Random random = new Random();
+        return String.valueOf( random.nextInt(999));
     }
 
 

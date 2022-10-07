@@ -1,22 +1,14 @@
 package com.fakeuserdatagenerator.fakeuserdatagenerator.utils.luhn;
 
 import com.fakeuserdatagenerator.fakeuserdatagenerator.constant.PaymentType;
-import com.github.javafaker.Faker;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 @Component
 public class LuhnAlgorithmGenerator {
 
     private static final List<String> AMERICAN_EXPRESS_SECOND_VALUE = new ArrayList<>(Arrays.asList("4", "7"));
-
-    @Autowired
-    private Faker faker;
 
     public String generateByPaymentType(PaymentType paymentType) {
         String numberWithoutLastDigit = "";
@@ -62,19 +54,31 @@ public class LuhnAlgorithmGenerator {
 
     private String generateMasterCardCreditCardNumber() {
 
-        return "5" + this.faker.number().digits(14);
+        return "5" + this.generateRandomNumber(14);
     }
 
     private String generateVisaCreditCardNumber() {
 
-        return "4" + this.faker.number().digits(14);
+        return "4" + this.generateRandomNumber(14);
 
     }
 
     private String generateAmericanExpressCreditCardNumber() {
+        Random random = new Random();
+        return "3"
+                + AMERICAN_EXPRESS_SECOND_VALUE.get(random.nextInt(1))
+                + this.generateRandomNumber(13);
 
-        return "3" + AMERICAN_EXPRESS_SECOND_VALUE.get(this.faker.number().numberBetween(0, 1)) +
-                this.faker.number().digits(13);
+    }
 
+    private String generateRandomNumber(Integer numberOfNumbers) {
+        Random random = new Random();
+        StringBuilder numbers = new StringBuilder();
+        for (int i = 0; i <= numberOfNumbers; i++) {
+            Integer randomNumber = random.nextInt(9);
+            numbers.append(randomNumber);
+        }
+
+        return numbers.toString();
     }
 }
