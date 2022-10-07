@@ -1,4 +1,4 @@
-package com.fakeuserdatagenerator.fakeuserdatagenerator.utils;
+package com.fakeuserdatagenerator.fakeuserdatagenerator.service;
 
 import com.fakeuserdatagenerator.fakeuserdatagenerator.constant.PaymentType;
 import com.fakeuserdatagenerator.fakeuserdatagenerator.domain.CreditCardData;
@@ -7,14 +7,15 @@ import com.fakeuserdatagenerator.fakeuserdatagenerator.utils.luhn.LuhnAlgorithmG
 import com.github.javafaker.Faker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
 import java.util.Random;
+
 import static java.util.Objects.isNull;
 
-@Component
-public class CreditCardGenerator {
+@Service
+public class CreditCardGeneratorServiceImpl implements CreditCardGeneratorService{
 
     @Autowired
     private Faker faker;
@@ -52,6 +53,5 @@ public class CreditCardGenerator {
         Random random = new Random();
         return String.valueOf( random.nextInt(999));
     }
-
 
 }

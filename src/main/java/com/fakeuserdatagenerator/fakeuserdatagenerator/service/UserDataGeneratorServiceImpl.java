@@ -1,4 +1,4 @@
-package com.fakeuserdatagenerator.fakeuserdatagenerator.utils;
+package com.fakeuserdatagenerator.fakeuserdatagenerator.service;
 
 import com.fakeuserdatagenerator.fakeuserdatagenerator.constant.BloodType;
 import com.fakeuserdatagenerator.fakeuserdatagenerator.constant.Country;
@@ -7,18 +7,19 @@ import com.fakeuserdatagenerator.fakeuserdatagenerator.constant.PaymentType;
 import com.fakeuserdatagenerator.fakeuserdatagenerator.domain.*;
 import com.github.javafaker.Faker;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.Locale;
 
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 
-@Component
-public class FakeUserGenerator {
+@Service
+public class UserDataGeneratorServiceImpl implements UserDataGeneratorService {
+
 
     @Autowired
-    CreditCardGenerator creditCardGenerator;
+    CreditCardGeneratorServiceImpl creditCardGeneratorService;
 
     @Autowired
     Faker faker;
@@ -33,7 +34,7 @@ public class FakeUserGenerator {
         }
 
         if (nonNull(userData.getCreditCard())) {
-            userData.setCreditCard(this.creditCardGenerator.generate(PaymentType.getRandom().name()));
+            userData.setCreditCard(this.creditCardGeneratorService.generate(PaymentType.getRandom().name()));
         }
 
         if (nonNull(userData.getPreference())) {
@@ -56,20 +57,20 @@ public class FakeUserGenerator {
     }
 
     private UserGeneralData generateGeneralData(String country) {
-        if (isNull(country) && nonNull(Country.getByCode(country))) {
+        if (isNull(country) || isNull(Country.getByCode(country))) {
             country = Country.getRandomValue();
         }
         UserGeneralData generalData = new UserGeneralData();
-        Faker faker = new Faker(Locale.forLanguageTag(country));
-        generalData.setFirstName(faker.name().firstName());
-        generalData.setLastName(faker.name().lastName());
+        generalData.setFirstName(this.faker.name().firstName());
+        generalData.setLastName(this.faker.name().lastName());
         generalData.setGender(Gender.getRandomValue());
-        generalData.setAddress(faker.address().fullAddress());
-        generalData.setAge(faker.number().numberBetween(18, 80));
-        generalData.setBirthDate(faker.date().birthday());
-        generalData.setCountry(faker.address().country());
-        generalData.setEmail(faker.internet().emailAddress());
-        generalData.setPhoneNumber(faker.phoneNumber().cellPhone());
+        generalData.setAddress(this.faker.address().fullAddress());
+        generalData.setAge(this.faker.number().numberBetween(18, 80));
+        generalData.setBirthDate(this.faker.date().birthday());
+        generalData.setCountry(this.faker.address().country());
+        generalData.setEmail(this.faker.internet().emailAddress());
+        generalData.setPhoneNumber(this.faker.phoneNumber().cellPhone());
+        generalData.setCountryCode(country.toUpperCase());
         return generalData;
     }
 
