@@ -11,7 +11,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.Date;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -79,5 +79,23 @@ class CreditCardGeneratorServiceImplTest {
         assertSame("111111111111111", testVisaData.getCardNumber());
         assertTrue(testVisaData.getExpirationDate().matches("[0-1][0-9]/[0-9]{4}"));
         assertTrue(testVisaData.getCvc().matches("[0-9]{3}"));
+    }
+
+    @Test
+    void whenGivenRandomEnumShouldReturnCreditCardDataList() {
+        String numberOfCreditCard = "3";
+        String firstCreditCardNumberTest = "111111111111111";
+
+        Mockito.when(this.luhnAlgorithmGenerator.generateByPaymentType(PaymentType.VISA)).thenReturn(firstCreditCardNumberTest);
+        Mockito.when(this.randomDateGenerator.getRandomDateGenerator()).thenReturn(new Date());
+
+        List<CreditCardData> testCreditCardDataList = this.creditCardGeneratorService.generateSeveral(PaymentType.VISA.name(), numberOfCreditCard);
+
+        assertEquals(Integer.parseInt(numberOfCreditCard), testCreditCardDataList.size());
+
+        for (CreditCardData testCreditCardData : testCreditCardDataList) {
+            assertEquals(firstCreditCardNumberTest, testCreditCardData.getCardNumber());
+        }
+
     }
 }

@@ -1,6 +1,5 @@
-package com.fakeuserdatagenerator.utils.luhn;
+package com.fakeuserdatagenerator.fakeuserdatagenerator.utils.luhn;
 
-import com.fakeuserdatagenerator.fakeuserdatagenerator.utils.luhn.LuhnAlgorithmGenerator;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -15,8 +14,9 @@ import static org.junit.jupiter.api.Assertions.*;
 @ExtendWith(MockitoExtension.class)
 class LuhnAlgorithmGeneratorTest {
 
-    @InjectMocks
+
     @Autowired
+    @InjectMocks
     LuhnAlgorithmGenerator luhnAlgorithmGenerator;
 
     @Test

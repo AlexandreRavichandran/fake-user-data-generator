@@ -5,11 +5,13 @@ import com.fakeuserdatagenerator.fakeuserdatagenerator.constant.Country;
 import com.fakeuserdatagenerator.fakeuserdatagenerator.constant.Gender;
 import com.fakeuserdatagenerator.fakeuserdatagenerator.constant.PaymentType;
 import com.fakeuserdatagenerator.fakeuserdatagenerator.domain.*;
+import com.fakeuserdatagenerator.fakeuserdatagenerator.utils.UserPictureUrlGenerator;
 import com.github.javafaker.Faker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Locale;
+import java.util.ArrayList;
+import java.util.List;
 
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
@@ -22,8 +24,13 @@ public class UserDataGeneratorServiceImpl implements UserDataGeneratorService {
     CreditCardGeneratorServiceImpl creditCardGeneratorService;
 
     @Autowired
+    UserPictureUrlGenerator userPictureUrlGenerator;
+
+    @Autowired
     Faker faker;
 
+
+    @Override
     public UserData generateFakeUserByNecessaryDatas(UserData userData, String country) {
 
         if (nonNull(userData.getGeneralData())) {
@@ -45,7 +52,20 @@ public class UserDataGeneratorServiceImpl implements UserDataGeneratorService {
             userData.setSocialNetwork(this.generateSocialNetwork());
         }
 
+        userData.setJob(this.faker.job().title());
         return userData;
+    }
+
+    @Override
+    public List<UserData> generateManyFakeUserByNecessaryData(UserData userData, String country, String number) {
+        List<UserData> userDataList = new ArrayList<>();
+
+        if (Integer.parseInt(number) > 0) {
+            for (int i = 0; i <= Integer.parseInt(number); i++) {
+                userDataList.add(this.generateFakeUserByNecessaryDatas(userData, country));
+            }
+        }
+        return userDataList;
     }
 
     private UserSocialNetworkData generateSocialNetwork() {
@@ -70,6 +90,9 @@ public class UserDataGeneratorServiceImpl implements UserDataGeneratorService {
         generalData.setCountry(this.faker.address().country());
         generalData.setEmail(this.faker.internet().emailAddress());
         generalData.setPhoneNumber(this.faker.phoneNumber().cellPhone());
+        generalData.setPictureUrl(this.userPictureUrlGenerator.generatePictureUrlBySexAndByAge(
+                generalData.getGender(), generalData.getAge()));
+
         generalData.setCountryCode(country.toUpperCase());
         return generalData;
     }

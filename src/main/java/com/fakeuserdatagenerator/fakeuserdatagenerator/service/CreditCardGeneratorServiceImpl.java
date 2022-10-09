@@ -10,6 +10,8 @@ import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import static java.util.Objects.isNull;
@@ -26,6 +28,7 @@ public class CreditCardGeneratorServiceImpl implements CreditCardGeneratorServic
     @Autowired
     private LuhnAlgorithmGenerator luhnAlgorithmGenerator;
 
+    @Override
     public CreditCardData generate(@Nullable String paymentType) {
         if (isNull(paymentType)) {
             paymentType = PaymentType.getRandom().name();
@@ -34,6 +37,18 @@ public class CreditCardGeneratorServiceImpl implements CreditCardGeneratorServic
         creditCardData.setCardNumber(this.generateNumberByPaymentType(PaymentType.valueOf(paymentType)));
         creditCardData.setExpirationDate(this.generateExpirationDate());
         creditCardData.setCvc(this.generateCVV());
+
+        return creditCardData;
+    }
+
+    @Override
+    public List<CreditCardData> generateSeveral(String paymentType, String number) {
+        List<CreditCardData> creditCardData = new ArrayList<>();
+        if (Integer.parseInt(number) > 0){
+            for (int i = 1; i <= Integer.parseInt(number) ; i++) {
+                creditCardData.add(this.generate(paymentType));
+            }
+        }
 
         return creditCardData;
     }

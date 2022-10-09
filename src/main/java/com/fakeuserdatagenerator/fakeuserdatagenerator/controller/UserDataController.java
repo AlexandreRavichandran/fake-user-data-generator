@@ -11,9 +11,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
 
 import static java.util.Objects.isNull;
+import static java.util.Objects.nonNull;
 
 
 @RestController
@@ -23,27 +25,34 @@ public class UserDataController {
     @Autowired
     UserDataGeneratorServiceImpl userDataGeneratorService;
 
-    @GetMapping()
-    public ResponseEntity<UserData> browse(@Nullable @RequestParam("datatypes") List<String> dataTypes,
-                                           @Nullable @RequestParam("sex") String sex,
-                                           @Nullable @RequestParam("ageRange") String[] ageRange,
-                                           @Nullable @RequestParam("country") String country,
-                                           @Nullable @RequestParam("number") Long number) {
+    @GetMapping("/")
+    public ResponseEntity<Object> browse(@Nullable @RequestParam("datatypes") List<String> dataTypes,
+                                             @Nullable @RequestParam("sex") String sex,
+                                             @Nullable @RequestParam("ageRange") String[] ageRange,
+                                             @Nullable @RequestParam("country") String country,
+                                             @RequestParam("number") String number) {
 
-
+        Object result;
         UserData userData = this.initializeUserDataByNecessaryDataTypes(dataTypes);
-        return new ResponseEntity<>(this.userDataGeneratorService.generateFakeUserByNecessaryDatas(userData, country), HttpStatus.OK);
+
+        if (nonNull(number) && Integer.parseInt(number) > 1) {
+            result = this.userDataGeneratorService.generateManyFakeUserByNecessaryData(userData, country, number);
+        } else {
+            result = this.userDataGeneratorService.generateFakeUserByNecessaryDatas(userData, country);
+        }
+
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-    public UserData initializeUserDataByNecessaryDataTypes(List<String> dataTypes){
+    private UserData initializeUserDataByNecessaryDataTypes(List<String> dataTypes) {
         UserData userData = new UserData();
 
-        if(isNull(dataTypes) || dataTypes.isEmpty()){
-            dataTypes = Arrays.asList("physical","general","preference","credit-card","social-network");
+        if (isNull(dataTypes) || dataTypes.isEmpty()) {
+            dataTypes = Arrays.asList("physical", "general", "preference", "credit-card", "social-network");
         }
 
         for (String dataType : dataTypes) {
-            switch (dataType){
+            switch (dataType) {
                 case "physical":
                     userData.setPhysicalData(new UserPhysicalData());
                     break;
@@ -64,14 +73,7 @@ public class UserDataController {
             }
         }
 
-        return Boolean.FALSE.equals(this.checkIfUserDataIsEmpty(userData)) ? userData : null;
+        return userData;
     }
 
-    private Boolean checkIfUserDataIsEmpty(UserData userData){
-        return isNull(userData.getGeneralData()) &&
-                isNull(userData.getPhysicalData()) &&
-                isNull(userData.getSocialNetwork()) &&
-                isNull(userData.getPreference()) &&
-                isNull(userData.getCreditCard());
-    }
 }

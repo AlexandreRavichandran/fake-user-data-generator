@@ -14,7 +14,7 @@ public class UserPictureUrlGenerator {
     public static final String WOMAN_PICTURE_URL = "/female";
 
 
-    public String generatePictureUrlBySexAndByAge(String sex, String age) {
+    public String generatePictureUrlBySexAndByAge(String sex, Integer age) {
 
         return BASE_URL + this.getLinkBySex(sex) + this.getLinkByAge(age);
     }
@@ -31,12 +31,12 @@ public class UserPictureUrlGenerator {
         return url;
     }
 
-    private String getLinkByAge(String age) {
+    private String getLinkByAge(Integer age) {
         String url;
 
-        if (Integer.parseInt(age) >= 18 && Integer.parseInt(age) < 30) {
+            if (age >= 18 && age < 30) {
             url = YOUNG_USER_PICTURE_URL;
-        } else if (Integer.parseInt(age) >= 38 && Integer.parseInt(age) < 50) {
+        } else if (age >= 38 && age < 50) {
             url = MIDDLE_USER_PICTURE_URL;
         } else {
             url = OLD_USER_PICTURE_URL;
