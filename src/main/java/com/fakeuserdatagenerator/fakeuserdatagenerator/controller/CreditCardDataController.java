@@ -22,7 +22,9 @@ public class CreditCardDataController {
     CreditCardGeneratorServiceImpl creditCardGeneratorService;
 
     @GetMapping("/")
-    public ResponseEntity<Object> generateRandom(@Nullable @RequestParam("type") String type, @Nullable @RequestParam("number") String number) {
+    public ResponseEntity<Object> generateRandom(
+            @Nullable @RequestParam("type") String type,
+            @Nullable @RequestParam("number") String number) {
 
         Object result;
         String paymentType = nonNull(type) ? type.toUpperCase(Locale.ROOT) : null;

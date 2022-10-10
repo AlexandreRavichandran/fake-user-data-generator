@@ -1,7 +1,7 @@
 package com.fakeuserdatagenerator.fakeuserdatagenerator.controller;
 
 import com.fakeuserdatagenerator.fakeuserdatagenerator.domain.*;
-import com.fakeuserdatagenerator.fakeuserdatagenerator.service.UserDataGeneratorServiceImpl;
+import com.fakeuserdatagenerator.fakeuserdatagenerator.service.userdata.UserDataGeneratorServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,19 +26,20 @@ public class UserDataController {
     UserDataGeneratorServiceImpl userDataGeneratorService;
 
     @GetMapping("/")
-    public ResponseEntity<Object> browse(@Nullable @RequestParam("datatypes") List<String> dataTypes,
-                                             @Nullable @RequestParam("sex") String sex,
-                                             @Nullable @RequestParam("ageRange") String[] ageRange,
-                                             @Nullable @RequestParam("country") String country,
-                                             @RequestParam("number") String number) {
+    public ResponseEntity<Object> browse(
+            @Nullable @RequestParam("datatypes") List<String> dataTypes,
+            @Nullable @RequestParam("sex") String sex,
+            @Nullable @RequestParam("ageRange") String[] ageRange,
+            @Nullable @RequestParam("country") String country,
+            @Nullable @RequestParam("number") String number) {
 
         Object result;
         UserData userData = this.initializeUserDataByNecessaryDataTypes(dataTypes);
 
         if (nonNull(number) && Integer.parseInt(number) > 1) {
-            result = this.userDataGeneratorService.generateManyFakeUserByNecessaryData(userData, country, number);
+            result = this.userDataGeneratorService.generateManyFakeUserByNecessaryData(userData, country, sex, number);
         } else {
-            result = this.userDataGeneratorService.generateFakeUserByNecessaryDatas(userData, country);
+            result = this.userDataGeneratorService.generateFakeUserByNecessaryDatas(userData, country, sex);
         }
 
         return new ResponseEntity<>(result, HttpStatus.OK);

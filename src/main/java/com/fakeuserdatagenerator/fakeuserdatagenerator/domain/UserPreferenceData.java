@@ -6,6 +6,5 @@ import lombok.Data;
 public class UserPreferenceData {
     private String favoriteMovie;
     private String favoriteFood;
-    private String favoriteGame;
     private String favoriteBook;
 }
