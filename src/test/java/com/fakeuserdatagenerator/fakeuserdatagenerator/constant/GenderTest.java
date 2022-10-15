@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 class GenderTest {
 
@@ -19,5 +19,23 @@ class GenderTest {
 
         String testGender = Gender.getRandomValue();
         assertTrue(possibleValues.contains(testGender));
+    }
+
+    @Test
+    void whenGivenLabelShouldReturnRelatedGenderEnumValue() {
+        String label = "Male";
+
+        Gender testGender = Gender.getByCode(label);
+
+        assertEquals(Gender.MALE,testGender);
+    }
+
+    @Test
+    void whenGivenWrongLabelShouldReturnNull(){
+        String wrongLabel = "test";
+
+        Gender testGender = Gender.getByCode(wrongLabel);
+
+        assertNull(testGender);
     }
 }

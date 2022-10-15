@@ -6,14 +6,26 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 class CountryTest {
 
     @Test
     void whenGivenCodeShouldReturnRelatedCountryEnumValue() {
+        String code = "fr";
+
+        Country testCountry = Country.getByCode(code);
+
+        assertEquals(Country.FR, testCountry);
     }
 
+    @Test
+    void whenGivenWrongCodeShouldReturnNull(){
+        String code = "test";
+        Country testCountry = Country.getByCode(code);
+
+        assertNull(testCountry);
+    }
     @Test
     void shouldReturnRandomCountryEnumValue() {
         List<String> possibleValues = new ArrayList<>(Arrays.asList(
