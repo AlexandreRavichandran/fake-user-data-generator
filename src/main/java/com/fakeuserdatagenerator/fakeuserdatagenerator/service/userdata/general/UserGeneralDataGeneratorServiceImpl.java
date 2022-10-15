@@ -2,10 +2,14 @@ package com.fakeuserdatagenerator.fakeuserdatagenerator.service.userdata.general
 
 import com.fakeuserdatagenerator.fakeuserdatagenerator.domain.UserGeneralData;
 import com.fakeuserdatagenerator.fakeuserdatagenerator.utils.UserPictureUrlGenerator;
+import com.fakeuserdatagenerator.fakeuserdatagenerator.utils.general.RandomDateGenerator;
 import com.github.javafaker.Faker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Locale;
 
 import static java.util.Objects.isNull;
@@ -16,6 +20,9 @@ public class UserGeneralDataGeneratorServiceImpl implements UserGeneralDataGener
     @Autowired
     private UserPictureUrlGenerator userPictureUrlGenerator;
 
+    @Autowired
+    private RandomDateGenerator randomDateGenerator;
+
     public UserGeneralData generateGeneralData(Faker faker, String country, String sex) {
 
         UserGeneralData generalData = new UserGeneralData();
@@ -23,8 +30,8 @@ public class UserGeneralDataGeneratorServiceImpl implements UserGeneralDataGener
         generalData.setLastName(faker.name().lastName());
         generalData.setGender(sex);
         generalData.setAddress(faker.address().streetAddress());
-        generalData.setAge(faker.number().numberBetween(18, 80));
-        generalData.setBirthDate(faker.date().birthday());
+        generalData.setBirthDate(this.randomDateGenerator.getRandomPastDate("dd/MM/yyyy"));
+        generalData.setAge(this.calculateAgeByBirthDate(generalData.getBirthDate()));
         if (isNull(country)) {
             String countryCode = faker.address().countryCode();
             Locale i = new Locale(countryCode);
@@ -42,5 +49,14 @@ public class UserGeneralDataGeneratorServiceImpl implements UserGeneralDataGener
 
 
         return generalData;
+    }
+
+    private Integer calculateAgeByBirthDate(String date){
+        Calendar birthDate = new GregorianCalendar();
+        Calendar today = new GregorianCalendar();
+        birthDate.setTime(new Date(date));
+        today.setTime(new Date());
+
+        return (today.get(Calendar.YEAR) - birthDate.get(Calendar.YEAR));
     }
 }

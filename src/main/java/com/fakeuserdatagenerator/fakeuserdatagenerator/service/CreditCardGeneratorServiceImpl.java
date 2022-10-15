@@ -59,9 +59,8 @@ public class CreditCardGeneratorServiceImpl implements CreditCardGeneratorServic
 
     private String generateExpirationDate() {
 
-        SimpleDateFormat dateFormatter = new SimpleDateFormat("MM/yyyy");
 
-        return dateFormatter.format(this.randomDateGenerator.getRandomDateGenerator());
+        return this.randomDateGenerator.getRandomFutureDate("MM/yyyy");
     }
 
     private String generateCVV() {

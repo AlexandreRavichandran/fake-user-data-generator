@@ -1,5 +1,7 @@
 package com.fakeuserdatagenerator.fakeuserdatagenerator.constant;
 
+import lombok.Data;
+
 import java.util.Random;
 
 public enum Gender {
@@ -23,5 +25,9 @@ public enum Gender {
             }
         }
         return null;
+    }
+
+    public String getLabel(){
+        return this.label;
     }
 }

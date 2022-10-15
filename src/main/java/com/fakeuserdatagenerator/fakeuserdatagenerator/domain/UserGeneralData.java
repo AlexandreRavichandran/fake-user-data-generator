@@ -11,7 +11,7 @@ public class UserGeneralData {
     private String firstName;
     private String gender;
     private Integer age;
-    private Date birthDate;
+    private String birthDate;
     private String pictureUrl;
     private String address;
     private String country;
