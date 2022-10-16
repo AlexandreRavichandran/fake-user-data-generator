@@ -25,9 +25,11 @@ public enum Country {
     VI("Vietnamese", "vi");
 
     private final String code;
+    private final String label;
 
     Country(String label, String code) {
         this.code = code;
+        this.label = label;
     }
 
     public static Country getByCode(String searchedLabel) {

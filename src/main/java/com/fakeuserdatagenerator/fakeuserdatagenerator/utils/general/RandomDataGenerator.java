@@ -4,6 +4,7 @@ import com.github.javafaker.Faker;
 import org.springframework.stereotype.Component;
 
 import java.util.Locale;
+import java.util.Random;
 
 @Component
 public class RandomDataGenerator {
@@ -31,7 +32,8 @@ public class RandomDataGenerator {
     }
 
     public Integer getRandomNumberBetween(Integer beginning, Integer ending){
-            return (int) ((Math.random() * (ending - beginning)) + beginning);
+        Random random = new Random();
+        return (int) ((random.nextInt() * (ending - beginning)) + beginning);
     }
 
     public String getAddress(){

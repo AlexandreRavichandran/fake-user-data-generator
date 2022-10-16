@@ -14,7 +14,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
 import java.io.InputStream;
 
 import static java.util.Objects.isNull;
@@ -37,7 +36,7 @@ public class StoredPictureController {
                     content = { @Content(mediaType = "image/jpeg",
                             schema = @Schema(implementation = UserData.class)) }),
     })
-    public ResponseEntity<InputStreamResource> getPictureByName(@RequestParam("sex") String sex, @RequestParam("age") String age, @RequestParam("name") String name){
+    public ResponseEntity<InputStreamResource> read(@RequestParam("sex") String sex, @RequestParam("age") String age, @RequestParam("name") String name){
         InputStream picture = this.storedPictureService.getPictureByAgeAndSexAndName(age,sex,name);
 
         if(isNull(picture)){
