@@ -1,5 +1,6 @@
 package com.fakeuserdatagenerator.fakeuserdatagenerator.service.userdata;
 
+import com.fakeuserdatagenerator.fakeuserdatagenerator.constant.AstrologicalSign;
 import com.fakeuserdatagenerator.fakeuserdatagenerator.constant.Country;
 import com.fakeuserdatagenerator.fakeuserdatagenerator.constant.Gender;
 import com.fakeuserdatagenerator.fakeuserdatagenerator.constant.PaymentType;
@@ -9,7 +10,7 @@ import com.fakeuserdatagenerator.fakeuserdatagenerator.service.userdata.general.
 import com.fakeuserdatagenerator.fakeuserdatagenerator.service.userdata.physical.UserPhysicalDataGeneratorServiceImpl;
 import com.fakeuserdatagenerator.fakeuserdatagenerator.service.userdata.preference.UserPreferenceDataGeneratorServiceImpl;
 import com.fakeuserdatagenerator.fakeuserdatagenerator.service.userdata.socialnetwork.UserSocialNetworkDataGeneratorServiceImpl;
-import com.github.javafaker.Faker;
+import com.fakeuserdatagenerator.fakeuserdatagenerator.utils.general.RandomDataGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -41,20 +42,20 @@ public class UserDataGeneratorServiceImpl implements UserDataGeneratorService {
     CreditCardGeneratorServiceImpl creditCardGeneratorService;
 
     @Autowired
-    Faker faker;
+    RandomDataGenerator randomDataGenerator;
 
     @Override
     public UserData generateFakeUserByNecessaryDatas(UserData userData, String country, String sex) {
         HashMap<String, String> inputValues = this.initializeAllInputs(country, sex);
-        this.initializeFakerByCountry(inputValues.get("country"));
+        this.initializeDataGeneratorByCountry(inputValues.get("country"));
         if (nonNull(userData.getGeneralData())) {
             if (isNull(country)) {
                 inputValues.put("country", null);
             }
-            userData.setGeneralData(this.userGeneralDataGeneratorService.generateGeneralData(this.faker, inputValues.get("country"), inputValues.get("sex")));
+            userData.setGeneralData(this.userGeneralDataGeneratorService.generateGeneralData(this.randomDataGenerator, inputValues.get("country"), inputValues.get("sex")));
         }
         if (nonNull(userData.getPhysicalData())) {
-            userData.setPhysicalData(this.userPhysicalDataGeneratorService.generatePhysicalData(this.faker));
+            userData.setPhysicalData(this.userPhysicalDataGeneratorService.generatePhysicalData(this.randomDataGenerator));
         }
 
         if (nonNull(userData.getCreditCard())) {
@@ -62,14 +63,15 @@ public class UserDataGeneratorServiceImpl implements UserDataGeneratorService {
         }
 
         if (nonNull(userData.getPreference())) {
-            userData.setPreference(this.userPreferenceDataGeneratorService.generatePreferenceData(this.faker));
+            userData.setPreference(this.userPreferenceDataGeneratorService.generatePreferenceData(this.randomDataGenerator));
         }
 
         if (nonNull(userData.getSocialNetwork())) {
-            userData.setSocialNetwork(this.userSocialNetworkDataGeneratorService.generateSocialNetwork(this.faker));
+            userData.setSocialNetwork(this.userSocialNetworkDataGeneratorService.generateSocialNetwork(this.randomDataGenerator, userData.getGeneralData()));
         }
 
-        userData.setJob(this.faker.job().title());
+        userData.setAstrologicalSign(AstrologicalSign.getRandomValue());
+        userData.setJob(this.randomDataGenerator.getJobTitle());
         return userData;
     }
 
@@ -85,8 +87,9 @@ public class UserDataGeneratorServiceImpl implements UserDataGeneratorService {
         return userDataList;
     }
 
-    private void initializeFakerByCountry(String country) {
-        this.faker = new Faker(new Locale(country));
+    private void initializeDataGeneratorByCountry(String country) {
+        this.randomDataGenerator = new RandomDataGenerator();
+        this.randomDataGenerator.setLocale(new Locale(country));
     }
 
     private HashMap<String, String> initializeAllInputs(String country, String sex) {

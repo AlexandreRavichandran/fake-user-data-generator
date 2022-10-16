@@ -1,17 +1,19 @@
 package com.fakeuserdatagenerator.fakeuserdatagenerator.controller;
 
+import com.fakeuserdatagenerator.fakeuserdatagenerator.domain.UserData;
 import com.fakeuserdatagenerator.fakeuserdatagenerator.service.StoredPictureServiceImpl;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -24,8 +26,18 @@ public class StoredPictureController {
     @Autowired
     StoredPictureServiceImpl storedPictureService;
 
-    @GetMapping(value = "/{sex}/{age}/{name}", produces = MediaType.IMAGE_JPEG_VALUE)
-    public ResponseEntity<InputStreamResource> getPictureByName(@PathVariable("sex") String sex, @PathVariable("age") String age, @PathVariable("name") String name) throws IOException {
+    @GetMapping(produces = MediaType.IMAGE_JPEG_VALUE)
+    @Operation(
+            summary = "Generate a user picture from the APi storage",
+            tags = "Picture generator",
+            description = "This route can generate an user picture based on informations given in the parameters. Pictures comes from" +
+                    "'Thispersondoesnotexists' website.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Generated user picture",
+                    content = { @Content(mediaType = "image/jpeg",
+                            schema = @Schema(implementation = UserData.class)) }),
+    })
+    public ResponseEntity<InputStreamResource> getPictureByName(@RequestParam("sex") String sex, @RequestParam("age") String age, @RequestParam("name") String name){
         InputStream picture = this.storedPictureService.getPictureByAgeAndSexAndName(age,sex,name);
 
         if(isNull(picture)){

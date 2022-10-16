@@ -1,9 +1,8 @@
 package com.fakeuserdatagenerator.fakeuserdatagenerator.service.userdata.general;
 
 import com.fakeuserdatagenerator.fakeuserdatagenerator.domain.UserGeneralData;
-import com.github.javafaker.Faker;
-
+import com.fakeuserdatagenerator.fakeuserdatagenerator.utils.general.RandomDataGenerator;
 public interface UserGeneralDataGeneratorService {
 
-    UserGeneralData generateGeneralData(Faker faker, String country, String sex);
+    UserGeneralData generateGeneralData(RandomDataGenerator randomDataGenerator, String country, String sex);
 }

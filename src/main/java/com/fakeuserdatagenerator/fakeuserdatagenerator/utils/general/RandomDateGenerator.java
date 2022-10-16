@@ -10,6 +10,11 @@ import java.util.Random;
 @Component
 public class RandomDateGenerator {
 
+    RandomDataGenerator randomDataGenerator;
+
+    public RandomDateGenerator(){
+        this.randomDataGenerator = new RandomDataGenerator();
+    }
     public String getRandomFutureDate(String format) {
 
         Calendar calendar = this.generateFutureDate(java.util.Calendar.getInstance());
@@ -31,7 +36,7 @@ public class RandomDateGenerator {
         Random r = new Random();
         calendar.set(Calendar.MONTH, Math.abs(r.nextInt()) % 12);
         calendar.set(Calendar.DAY_OF_MONTH, Math.abs(r.nextInt()) % 30);
-        calendar.set(Calendar.YEAR, Math.abs(Calendar.getInstance().get(Calendar.YEAR)) - r.nextInt(80));
+        calendar.set(Calendar.YEAR, Math.abs(Calendar.getInstance().get(Calendar.YEAR)) - this.randomDataGenerator.getRandomNumberBetween(18,80));
 
         return calendar;
     }

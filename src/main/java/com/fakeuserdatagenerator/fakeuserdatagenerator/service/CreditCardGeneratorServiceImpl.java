@@ -4,12 +4,10 @@ import com.fakeuserdatagenerator.fakeuserdatagenerator.constant.PaymentType;
 import com.fakeuserdatagenerator.fakeuserdatagenerator.domain.CreditCardData;
 import com.fakeuserdatagenerator.fakeuserdatagenerator.utils.general.RandomDateGenerator;
 import com.fakeuserdatagenerator.fakeuserdatagenerator.utils.luhn.LuhnAlgorithmGenerator;
-import com.github.javafaker.Faker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -18,9 +16,6 @@ import static java.util.Objects.isNull;
 
 @Service
 public class CreditCardGeneratorServiceImpl implements CreditCardGeneratorService{
-
-    @Autowired
-    private Faker faker;
 
     @Autowired
     private RandomDateGenerator randomDateGenerator;
@@ -58,7 +53,6 @@ public class CreditCardGeneratorServiceImpl implements CreditCardGeneratorServic
     }
 
     private String generateExpirationDate() {
-
 
         return this.randomDateGenerator.getRandomFutureDate("MM/yyyy");
     }

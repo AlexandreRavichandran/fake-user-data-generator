@@ -2,8 +2,8 @@ package com.fakeuserdatagenerator.fakeuserdatagenerator.service.userdata.general
 
 import com.fakeuserdatagenerator.fakeuserdatagenerator.domain.UserGeneralData;
 import com.fakeuserdatagenerator.fakeuserdatagenerator.utils.UserPictureUrlGenerator;
+import com.fakeuserdatagenerator.fakeuserdatagenerator.utils.general.RandomDataGenerator;
 import com.fakeuserdatagenerator.fakeuserdatagenerator.utils.general.RandomDateGenerator;
-import com.github.javafaker.Faker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,17 +23,17 @@ public class UserGeneralDataGeneratorServiceImpl implements UserGeneralDataGener
     @Autowired
     private RandomDateGenerator randomDateGenerator;
 
-    public UserGeneralData generateGeneralData(Faker faker, String country, String sex) {
+    public UserGeneralData generateGeneralData(RandomDataGenerator randomDataGenerator, String country, String sex) {
 
         UserGeneralData generalData = new UserGeneralData();
-        generalData.setFirstName(faker.name().firstName());
-        generalData.setLastName(faker.name().lastName());
+        generalData.setFirstName(randomDataGenerator.getFirstName());
+        generalData.setLastName(randomDataGenerator.getLastName());
         generalData.setGender(sex);
-        generalData.setAddress(faker.address().streetAddress());
+        generalData.setAddress(randomDataGenerator.getAddress());
         generalData.setBirthDate(this.randomDateGenerator.getRandomPastDate("dd/MM/yyyy"));
         generalData.setAge(this.calculateAgeByBirthDate(generalData.getBirthDate()));
         if (isNull(country)) {
-            String countryCode = faker.address().countryCode();
+            String countryCode = randomDataGenerator.getCountryCode();
             Locale i = new Locale(countryCode);
             generalData.setCountry(i.getDisplayCountry());
             generalData.setCountryCode(countryCode);
@@ -42,8 +42,8 @@ public class UserGeneralDataGeneratorServiceImpl implements UserGeneralDataGener
             generalData.setCountryCode(country.toUpperCase());
         }
 
-        generalData.setEmail(faker.internet().emailAddress());
-        generalData.setPhoneNumber(faker.phoneNumber().cellPhone());
+        generalData.setEmail(randomDataGenerator.getEmail());
+        generalData.setPhoneNumber(randomDataGenerator.getPhoneNumber());
         generalData.setPictureUrl(this.userPictureUrlGenerator.generatePictureUrlBySexAndByAge(
                 generalData.getGender(), generalData.getAge()));
 

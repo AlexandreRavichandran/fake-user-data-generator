@@ -1,10 +1,10 @@
 package com.fakeuserdatagenerator.fakeuserdatagenerator.service.userdata.preference;
 
 import com.fakeuserdatagenerator.fakeuserdatagenerator.domain.UserPreferenceData;
-import com.github.javafaker.Faker;
+import com.fakeuserdatagenerator.fakeuserdatagenerator.utils.general.RandomDataGenerator;
 
 public interface UserPreferenceDataGeneratorService {
 
-    UserPreferenceData generatePreferenceData(Faker faker);
+    UserPreferenceData generatePreferenceData(RandomDataGenerator randomDataGenerator);
 
 }

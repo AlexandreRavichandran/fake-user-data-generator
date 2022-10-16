@@ -1,7 +1,5 @@
 package com.fakeuserdatagenerator.fakeuserdatagenerator.constant;
 
-import lombok.Data;
-
 import java.util.Random;
 
 public enum Gender {

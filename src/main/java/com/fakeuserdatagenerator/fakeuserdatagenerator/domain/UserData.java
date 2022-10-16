@@ -18,7 +18,7 @@ public class UserData {
     private UserPhysicalData physicalData;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private AstrologicalSign astrologicalSign;
+    private String astrologicalSign;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private CreditCardData creditCard;

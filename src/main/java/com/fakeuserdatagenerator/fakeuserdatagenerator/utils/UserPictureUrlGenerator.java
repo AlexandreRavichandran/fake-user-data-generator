@@ -36,7 +36,7 @@ public class UserPictureUrlGenerator {
             picturePath = pictures[random.nextInt(pictures.length - 1)];
         }
 
-        return this.environmentUrl + "/api/storage/pictures/" + sex + "/" + age + "/" + picturePath;
+        return this.environmentUrl + "/api/storage/pictures?sex=" + sex + "&age=" + age + "&name=" + picturePath;
     }
 
     public String getLinkBySex(String sex) {

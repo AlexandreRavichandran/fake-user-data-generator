@@ -31,7 +31,7 @@ class CreditCardGeneratorServiceImplTest {
     void whenGivenVisaEnumShouldReturnVisaCreditCardData() {
         String creditCardNumberTest = "111111111111111";
         Mockito.when(this.luhnAlgorithmGenerator.generateByPaymentType(PaymentType.VISA)).thenReturn(creditCardNumberTest);
-        Mockito.when(this.randomDateGenerator.getRandomDateGenerator()).thenReturn(new Date());
+        Mockito.when(this.randomDateGenerator.getRandomFutureDate("MM/yyyy")).thenReturn("12/2022");
         CreditCardData testVisaData = this.creditCardGeneratorService.generate(PaymentType.VISA.name());
         Mockito.verify(this.luhnAlgorithmGenerator).generateByPaymentType(PaymentType.VISA);
 
@@ -45,7 +45,7 @@ class CreditCardGeneratorServiceImplTest {
     void whenGivenMastercardEnumShouldReturnMastercardCreditCardData() {
         String creditCardNumberTest = "111111111111111";
         Mockito.when(this.luhnAlgorithmGenerator.generateByPaymentType(PaymentType.MASTERCARD)).thenReturn(creditCardNumberTest);
-        Mockito.when(this.randomDateGenerator.getRandomDateGenerator()).thenReturn(new Date());
+        Mockito.when(this.randomDateGenerator.getRandomFutureDate("MM/yyyy")).thenReturn("12/2022");
         CreditCardData testVisaData = this.creditCardGeneratorService.generate(PaymentType.MASTERCARD.name());
         Mockito.verify(this.luhnAlgorithmGenerator).generateByPaymentType(PaymentType.MASTERCARD);
 
@@ -58,7 +58,7 @@ class CreditCardGeneratorServiceImplTest {
     void whenGivenAmericanExpressEnumShouldReturnAmericanExpressCreditCardData() {
         String creditCardNumberTest = "111111111111111";
         Mockito.when(this.luhnAlgorithmGenerator.generateByPaymentType(PaymentType.AMERICAN_EXPRESS)).thenReturn(creditCardNumberTest);
-        Mockito.when(this.randomDateGenerator.getRandomDateGenerator()).thenReturn(new Date());
+        Mockito.when(this.randomDateGenerator.getRandomFutureDate("MM/yyyy")).thenReturn("12/2022");
         CreditCardData testVisaData = this.creditCardGeneratorService.generate(PaymentType.AMERICAN_EXPRESS.name());
         Mockito.verify(this.luhnAlgorithmGenerator).generateByPaymentType(PaymentType.AMERICAN_EXPRESS);
 
@@ -72,7 +72,7 @@ class CreditCardGeneratorServiceImplTest {
 
         String creditCardNumberTest = "111111111111111";
         Mockito.when(this.luhnAlgorithmGenerator.generateByPaymentType(PaymentType.AMERICAN_EXPRESS)).thenReturn(creditCardNumberTest);
-        Mockito.when(this.randomDateGenerator.getRandomDateGenerator()).thenReturn(new Date());
+        Mockito.when(this.randomDateGenerator.getRandomFutureDate("MM/yyyy")).thenReturn("12/2022");
         CreditCardData testVisaData = this.creditCardGeneratorService.generate(PaymentType.AMERICAN_EXPRESS.name());
         Mockito.verify(this.luhnAlgorithmGenerator).generateByPaymentType(PaymentType.AMERICAN_EXPRESS);
 
@@ -87,7 +87,7 @@ class CreditCardGeneratorServiceImplTest {
         String firstCreditCardNumberTest = "111111111111111";
 
         Mockito.when(this.luhnAlgorithmGenerator.generateByPaymentType(PaymentType.VISA)).thenReturn(firstCreditCardNumberTest);
-        Mockito.when(this.randomDateGenerator.getRandomDateGenerator()).thenReturn(new Date());
+        Mockito.when(this.randomDateGenerator.getRandomFutureDate("MM/yyyy")).thenReturn("12/2022");
 
         List<CreditCardData> testCreditCardDataList = this.creditCardGeneratorService.generateSeveral(PaymentType.VISA.name(), numberOfCreditCard);
 
