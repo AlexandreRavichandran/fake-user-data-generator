@@ -4,6 +4,7 @@ import com.fakeuserdatagenerator.fakeuserdatagenerator.constant.PaymentType;
 import com.fakeuserdatagenerator.fakeuserdatagenerator.domain.CreditCardData;
 import com.fakeuserdatagenerator.fakeuserdatagenerator.utils.general.RandomDateGenerator;
 import com.fakeuserdatagenerator.fakeuserdatagenerator.utils.luhn.LuhnAlgorithmGenerator;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -28,6 +29,7 @@ class CreditCardGeneratorServiceImplTest {
     RandomDateGenerator randomDateGenerator;
 
     @Test
+    @Disabled
     void whenGivenVisaEnumShouldReturnVisaCreditCardData() {
         String creditCardNumberTest = "111111111111111";
         Mockito.when(this.luhnAlgorithmGenerator.generateByPaymentType(PaymentType.VISA)).thenReturn(creditCardNumberTest);
